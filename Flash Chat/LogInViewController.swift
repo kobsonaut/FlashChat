@@ -2,15 +2,17 @@
 //  LogInViewController.swift
 //  Flash Chat
 //
-//  This is the view controller where users login
-
+//  Created by Kobsonauta on 05/11/2017.
+//  Copyright (c) 2017 Kobsonauta. All rights reserved.
+//
 
 import UIKit
+import Firebase
+import SVProgressHUD
 
 
 class LogInViewController: UIViewController {
 
-    //Textfields pre-linked with IBOutlets
     @IBOutlet var emailTextfield: UITextField!
     @IBOutlet var passwordTextfield: UITextField!
     
@@ -26,13 +28,15 @@ class LogInViewController: UIViewController {
    
     @IBAction func logInPressed(_ sender: AnyObject) {
 
-        
-        //TODO: Log in the user
-        
-        
+        SVProgressHUD.show()
+        Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
+            if error != nil {
+                print(error)
+            } else {
+                print("Log in successful!")
+                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
+            SVProgressHUD.dismiss()
+        }
     }
-    
-
-
-    
 }  
